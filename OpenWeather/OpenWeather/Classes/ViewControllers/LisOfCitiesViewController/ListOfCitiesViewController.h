@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddCityViewController.h"
 
-@interface ListOfCitiesViewController : UIViewController
+@interface ListOfCitiesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CityAdded>
+
+@property (weak, nonatomic) IBOutlet UITableView *listOfCitiesTableView;
+@property (strong, nonatomic) NSMutableArray *citiesArray;
 
 @end

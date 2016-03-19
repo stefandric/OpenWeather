@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CityTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *cityNameLabel;
 
 @end

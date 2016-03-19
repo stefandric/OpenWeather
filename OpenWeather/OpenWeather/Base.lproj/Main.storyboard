@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--List Of Cities View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ListOfCitiesViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +17,138 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ORs-ks-m2j">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cityCell" rowHeight="70" id="Hi0-st-hbf" customClass="CityTableViewCell">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="70"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Hi0-st-hbf" id="CGy-xd-fNA">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hf0-hQ-kkV">
+                                                    <rect key="frame" x="8" y="24" width="292" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="NhK-yy-1Gb"/>
+                                                        <constraint firstAttribute="width" constant="292" id="hF5-dF-Pl8"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Hf0-hQ-kkV" firstAttribute="top" secondItem="CGy-xd-fNA" secondAttribute="topMargin" constant="16" id="1J7-lB-o5e"/>
+                                                <constraint firstItem="Hf0-hQ-kkV" firstAttribute="leading" secondItem="CGy-xd-fNA" secondAttribute="leadingMargin" id="dpt-s4-F7A"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="cityNameLabel" destination="Hf0-hQ-kkV" id="BGW-hr-hfe"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="Icl-Ct-XKL"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="IOq-uw-5sD"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ORs-ks-m2j" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="25O-c7-ZnC"/>
+                            <constraint firstAttribute="trailing" secondItem="ORs-ks-m2j" secondAttribute="trailing" id="agJ-9S-p1y"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ORs-ks-m2j" secondAttribute="bottom" id="hTs-7u-G6s"/>
+                            <constraint firstItem="ORs-ks-m2j" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="lyL-G1-x5m"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="listOfCitiesTableView" destination="ORs-ks-m2j" id="sRg-JB-Zyf"/>
+                        <segue destination="C2S-1E-ffr" kind="presentation" identifier="addCitySegue" id="7AN-Y9-znp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-555" y="308"/>
+        </scene>
+        <!--Add City View Controller-->
+        <scene sceneID="avd-Ia-hPB">
+            <objects>
+                <viewController id="C2S-1E-ffr" customClass="AddCityViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0WK-zE-3Vc"/>
+                        <viewControllerLayoutGuide type="bottom" id="DkK-XB-P8d"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hHc-Ze-deM">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DK9-fY-wFQ">
+                                <rect key="frame" x="20" y="20" width="126" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="126" id="24c-YE-yvC"/>
+                                </constraints>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancelButtonPressed:" destination="C2S-1E-ffr" eventType="touchUpInside" id="W7X-Nn-cpu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tDL-jn-Ah7">
+                                <rect key="frame" x="452" y="20" width="128" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="128" id="sOQ-OT-vhx"/>
+                                </constraints>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="saveButtonTapped:" destination="C2S-1E-ffr" eventType="touchUpInside" id="Nwu-Db-usL"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WZp-or-Ops">
+                                <rect key="frame" x="127" y="285" width="346" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="346" id="5jm-oY-E4z"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="tDL-jn-Ah7" secondAttribute="trailing" id="56t-91-ydn"/>
+                            <constraint firstItem="tDL-jn-Ah7" firstAttribute="top" secondItem="0WK-zE-3Vc" secondAttribute="bottom" id="IAW-D4-LVm"/>
+                            <constraint firstItem="DK9-fY-wFQ" firstAttribute="top" secondItem="0WK-zE-3Vc" secondAttribute="bottom" id="LBw-gN-JzZ"/>
+                            <constraint firstItem="WZp-or-Ops" firstAttribute="centerY" secondItem="hHc-Ze-deM" secondAttribute="centerY" id="Wbk-Tu-t6z"/>
+                            <constraint firstItem="WZp-or-Ops" firstAttribute="centerX" secondItem="hHc-Ze-deM" secondAttribute="centerX" id="c43-iz-2Sh"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="DK9-fY-wFQ" secondAttribute="leading" id="iXE-14-LGK"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="addCityTextField" destination="WZp-or-Ops" id="99j-wq-ykw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2wu-W5-YWI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="157" y="-178"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="NFN-Zo-Mqe">
+            <objects>
+                <viewController id="4W3-kT-W8R" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ymY-ws-apw"/>
+                        <viewControllerLayoutGuide type="bottom" id="BTm-X0-2Ud"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rIe-wF-AY5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jqb-mq-Rtx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="157" y="704"/>
         </scene>
     </scenes>
 </document>
