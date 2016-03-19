@@ -37,11 +37,10 @@
         
     
     [Communication getCityInformationByCityName:self.addCityTextField.text successBlock:^(NSDictionary *response) {
-        
+        NSLog(@"%@", response);
     } errorBlock:^(NSDictionary *error) {
-        
+        NSLog(@"%@", error);
     }];
-        
     }
     
 //    [self.delegate cityAdded:self.addCityTextField.text];
