@@ -7,6 +7,7 @@
 //
 
 #import "AddCityViewController.h"
+#import "Communication.h"
 
 @interface AddCityViewController ()
 
@@ -32,7 +33,18 @@
 
 - (IBAction)saveButtonTapped:(id)sender
 {
-    [self.delegate cityAdded:self.addCityTextField.text];
+    if (self.addCityTextField.hasText) {
+        
+    
+    [Communication getCityInformationByCityName:self.addCityTextField.text successBlock:^(NSDictionary *response) {
+        
+    } errorBlock:^(NSDictionary *error) {
+        
+    }];
+        
+    }
+    
+//    [self.delegate cityAdded:self.addCityTextField.text];
 }
 
 /*

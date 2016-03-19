@@ -16,6 +16,13 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //Setting API key for ApiWeather
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (![userDefaults objectForKey:@"apiKey"]) {
+         [[NSUserDefaults standardUserDefaults] setObject:@"aaef45c6ee201be7e1aead64cd376fdc" forKey:@"apiKey"];
+        [userDefaults synchronize]; //Just to be sure that API will be written immediately
+    }
+   
     // Override point for customization after application launch.
     return YES;
 }
