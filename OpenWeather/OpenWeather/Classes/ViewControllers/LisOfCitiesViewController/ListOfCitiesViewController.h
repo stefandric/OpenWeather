@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  ListOfCitiesViewController.h
 //  OpenWeather
 //
 //  Created by Stefan Andric on 3/19/16.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface ListOfCitiesViewController : UIViewController
 
 @end
-
