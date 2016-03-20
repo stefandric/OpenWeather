@@ -8,6 +8,8 @@
 
 #import "ListOfCitiesViewController.h"
 #import "CityTableViewCell.h"
+#import "Communication.h"
+#import "MBProgressHUD.h"
 
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
@@ -26,7 +28,37 @@
     }
     self.navigationItem.title = @"Favorite cities";
     self.listOfCitiesTableView.backgroundColor = [UIColor clearColor];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.backgroundColor = [UIColor grayColor];
+    self.refreshControl.tintColor = [UIColor whiteColor];
+    [self.refreshControl addTarget:self
+                            action:@selector(getLatestWeatherChanges)
+                  forControlEvents:UIControlEventValueChanged];
+    [self.listOfCitiesTableView addSubview:self.refreshControl];
     // Do any additional setup after loading the view.
+}
+
+-(void)getLatestWeatherChanges
+{
+    [Communication getAllCitiesInfoById:[self getAllCitiesIds] successBlock:^(NSDictionary *response) {
+        self.citiesArray = [[NSMutableArray alloc]init];//Emptying array
+        NSArray *listOfCities = [response objectForKey:@"list"];
+        for (NSDictionary *dict in listOfCities) {
+            CityModel *cityModel = [[CityModel alloc] initWithDictionary:dict];
+            [self.citiesArray addObject:cityModel];
+        }
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.citiesArray];
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"savedCities"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
+        [self.listOfCitiesTableView reloadData];
+        [self.refreshControl endRefreshing];
+    } errorBlock:^(NSDictionary *error) {
+        
+    }];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,13 +82,49 @@
     CityTableViewCell *cell = (CityTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cityCell"];
     CityModel *city = self.citiesArray[indexPath.row];
     cell.cityNameLabel.text = city.name;
-    cell.cityTemperature.text = [NSString stringWithFormat:@"%@°", city.currentTemperature];
+    cell.cityTemperature.text = [NSString stringWithFormat:@"%d°", [city.currentTemperature intValue]];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self performSegueWithIdentifier:@"cityDetailsSegue" sender:self];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    CityModel *tempModel = self.citiesArray[indexPath.row];//Just to get name of selected model
+    
+    NSString *fetchedString = [tempModel.name stringByReplacingOccurrencesOfString:@" " withString:@""]; //Possible spaces
+    
+    
+    [Communication getCityInformationByCityName:fetchedString successBlock:^(NSDictionary *response) {
+        NSLog(@"%@", response);
+        self.selectedCityModel = [[CityModel alloc] initWithDictionary:response];
+        [self.citiesArray replaceObjectAtIndex:indexPath.row withObject:self.selectedCityModel]; //Replace existing object with fresh data.
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.citiesArray]; //Save to user defaults freshly data
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"savedCities"];
+        [[NSUserDefaults standardUserDefaults] synchronize]; //Just to be sure that it is immidiatelly changed
+        
+        [self performSegueWithIdentifier:@"cityDetailsSegue" sender:self];
+        
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            });
+           
+        });
+        
+        [self.listOfCitiesTableView reloadData];
+    } errorBlock:^(NSDictionary *error) {
+        
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            // Do something...
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            });
+        });
+        
+    }];
+    
+    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -93,6 +161,7 @@
         [self.listOfCitiesTableView reloadData];
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.citiesArray];
         [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"savedCities"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 #pragma mark - PlusButton
@@ -109,7 +178,8 @@
         vc.delegate = self;
     }
     else if ([segue.identifier isEqualToString:@"cityDetailsSegue"]) {
-        __unused CityDetailsViewController *vc = [segue destinationViewController];
+        CityDetailsViewController *vc = [segue destinationViewController];
+        vc.cityModel = self.selectedCityModel;
     }
 }
 
@@ -130,6 +200,26 @@
     [self.listOfCitiesTableView reloadData]; //Refresh data with newest
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.citiesArray];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"savedCities"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-(NSString *)getAllCitiesIds
+{
+    NSString *idsString;
+    for (int i=0; i<self.citiesArray.count; i++) {
+        CityModel *cityModel = self.citiesArray[i];
+        if (i == 0) {
+            idsString = cityModel.cityId;
+        }
+        else if (i==self.citiesArray.count-1){
+            idsString = [NSString stringWithFormat:@"%@,%@", idsString, cityModel.cityId];
+        }
+        else {
+            idsString = [NSString stringWithFormat:@"%@,%@",idsString, cityModel.cityId];
+        }
+    }
+
+    return idsString;
 }
 
 @end

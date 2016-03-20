@@ -15,5 +15,6 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *listOfCitiesTableView;
 @property (strong, nonatomic) NSMutableArray *citiesArray;
-
+@property (strong, nonatomic) CityModel *selectedCityModel;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 @end

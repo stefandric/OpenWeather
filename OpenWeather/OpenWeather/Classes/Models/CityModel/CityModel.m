@@ -14,13 +14,14 @@
     self = [super init];
     if (self) {
         self.name = [dict objectForKey:@"name"];
-        NSDictionary *sys = [dict objectForKey:@"sys"];
-        self.cityId = [sys objectForKey:@"id"];
+//        NSDictionary *sys = [dict objectForKey:@"sys"];
+        self.cityId = [dict objectForKey:@"id"];
         NSDictionary *main = [dict objectForKey:@"main"];
         self.humidity = [main objectForKey:@"humidity"];
         NSArray *weather = [dict objectForKey:@"weather"];
         for (NSDictionary *temp in weather) {
             self.descriptionWeather = [temp objectForKey:@"description"];
+            self.weatherDescriptionId = [temp objectForKey:@"id"];
         }
         self.currentTemperature = [main objectForKey:@"temp"];
         self.temperatureMax = [main objectForKey:@"temp_max"];
@@ -39,6 +40,7 @@
     [aCoder encodeObject:self.currentTemperature forKey:@"currentTemperature"];
     [aCoder encodeObject:self.temperatureMax forKey:@"temperatureMax"];
     [aCoder encodeObject:self.temperatureMin forKey:@"temperatureMin"];
+    [aCoder encodeObject:self.weatherDescriptionId forKey:@"weatherDescriptionId"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -51,6 +53,7 @@
         self.currentTemperature = [aDecoder decodeObjectForKey:@"currentTemperature"];
         self.temperatureMax = [aDecoder decodeObjectForKey:@"temperatureMax"];
         self.temperatureMin = [aDecoder decodeObjectForKey:@"temperatureMin"];
+        self.weatherDescriptionId = [aDecoder decodeObjectForKey:@"weatherDescriptionId"]; 
         
     }
     return self;

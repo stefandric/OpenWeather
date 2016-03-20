@@ -16,6 +16,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initializeViewData];
+    [self setBackgrounImageDependingOnDescription:self.cityModel];
     // Do any additional setup after loading the view.
 }
 
@@ -24,6 +26,35 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)initializeViewData
+{
+    self.temperatureLabel.text = [NSString stringWithFormat:@"%d°", [self.cityModel.currentTemperature intValue]];
+    self.cityNameLabel.text = self.cityModel.name;
+    self.humidityLabel.text = [NSString stringWithFormat:@"Humidity: %@", self.cityModel.humidity];
+    self.descriptionLabel.text = self.cityModel.descriptionWeather;
+
+}
+
+-(void)setBackgrounImageDependingOnDescription:(CityModel *)cityModel
+{
+    int weatherId = [cityModel.weatherDescriptionId intValue];
+    
+    if (weatherId >=200 && weatherId<=232) {
+        [self.backgroundImage setImage:[UIImage imageNamed:@"thunder"]];
+    }
+    
+    else if (weatherId >=300 && weatherId<=531) {
+        [self.backgroundImage setImage:[UIImage imageNamed:@"rain"]];
+    }
+    
+    else if (weatherId >=600 && weatherId<=622) {
+        [self.backgroundImage setImage:[UIImage imageNamed:@"snow"]];
+    }
+    
+    else {
+        [self.backgroundImage setImage:[UIImage imageNamed:@"clearSky"]];
+    }
+}
 /*
 #pragma mark - Navigation
 

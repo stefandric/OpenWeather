@@ -39,14 +39,18 @@
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
     [Communication getCityInformationByCityName:fetchedString successBlock:^(NSDictionary *response) {
-        NSLog(@"%@", response);
+        
         CityModel *cityModel = [[CityModel alloc] initWithDictionary:response];
         [self.delegate cityAdded:cityModel];
+         [self dismissViewControllerAnimated:YES completion:nil];
+        
+        
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
             // Do something...
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
             });
+            
         });
     } errorBlock:^(NSDictionary *error) {
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
