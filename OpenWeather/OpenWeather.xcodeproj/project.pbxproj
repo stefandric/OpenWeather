@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		907B92061C9EFFE600685684 /* CityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 907B92051C9EFFE600685684 /* CityModel.m */; };
+		907B920B1C9F0A9600685684 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 907B920A1C9F0A9600685684 /* MBProgressHUD.m */; };
+		907B920F1C9F189600685684 /* CityDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907B920E1C9F189600685684 /* CityDetailsViewController.m */; };
 		909ACD561C9D4FC400BDC7E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 909ACD551C9D4FC400BDC7E3 /* main.m */; };
 		909ACD591C9D4FC400BDC7E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 909ACD581C9D4FC400BDC7E3 /* AppDelegate.m */; };
 		909ACD5F1C9D4FC400BDC7E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909ACD5D1C9D4FC400BDC7E3 /* Main.storyboard */; };
@@ -44,6 +47,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		907B92041C9EFFE600685684 /* CityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityModel.h; sourceTree = "<group>"; };
+		907B92051C9EFFE600685684 /* CityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityModel.m; sourceTree = "<group>"; };
+		907B92091C9F0A9600685684 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		907B920A1C9F0A9600685684 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		907B920D1C9F189600685684 /* CityDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityDetailsViewController.h; sourceTree = "<group>"; };
+		907B920E1C9F189600685684 /* CityDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityDetailsViewController.m; sourceTree = "<group>"; };
 		909ACD511C9D4FC400BDC7E3 /* OpenWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909ACD551C9D4FC400BDC7E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		909ACD571C9D4FC400BDC7E3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -106,6 +115,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		907B92031C9EFFA000685684 /* CityModel */ = {
+			isa = PBXGroup;
+			children = (
+				907B92041C9EFFE600685684 /* CityModel.h */,
+				907B92051C9EFFE600685684 /* CityModel.m */,
+			);
+			path = CityModel;
+			sourceTree = "<group>";
+		};
+		907B92081C9F0A9600685684 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				907B92091C9F0A9600685684 /* MBProgressHUD.h */,
+				907B920A1C9F0A9600685684 /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		907B920C1C9F188100685684 /* CityDetailsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				907B920D1C9F189600685684 /* CityDetailsViewController.h */,
+				907B920E1C9F189600685684 /* CityDetailsViewController.m */,
+			);
+			path = CityDetailsViewController;
+			sourceTree = "<group>";
+		};
 		909ACD481C9D4FC400BDC7E3 = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +217,7 @@
 		909ACD881C9D524500BDC7E3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				907B92031C9EFFA000685684 /* CityModel */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -188,6 +225,7 @@
 		909ACD891C9D524500BDC7E3 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				907B920C1C9F188100685684 /* CityDetailsViewController */,
 				909ACD911C9D57F800BDC7E3 /* AddCityViewController */,
 				909ACD8A1C9D526000BDC7E3 /* LisOfCitiesViewController */,
 			);
@@ -226,6 +264,7 @@
 		909ACD991C9D5FBE00BDC7E3 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				907B92081C9F0A9600685684 /* MBProgressHUD */,
 				909ACD9A1C9D5FEA00BDC7E3 /* AFHTTPSessionManager.h */,
 				909ACD9B1C9D5FEA00BDC7E3 /* AFHTTPSessionManager.m */,
 				909ACD9C1C9D5FEA00BDC7E3 /* AFNetworking.h */,
@@ -374,6 +413,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				909ACD591C9D4FC400BDC7E3 /* AppDelegate.m in Sources */,
+				907B920F1C9F189600685684 /* CityDetailsViewController.m in Sources */,
 				909ACDA91C9D5FEA00BDC7E3 /* AFSecurityPolicy.m in Sources */,
 				909ACD941C9D580800BDC7E3 /* AddCityViewController.m in Sources */,
 				909ACD981C9D5F9600BDC7E3 /* Communication.m in Sources */,
@@ -384,7 +424,9 @@
 				909ACDAA1C9D5FEA00BDC7E3 /* AFURLRequestSerialization.m in Sources */,
 				909ACDAC1C9D5FEA00BDC7E3 /* AFURLSessionManager.m in Sources */,
 				909ACDA81C9D5FEA00BDC7E3 /* AFNetworkReachabilityManager.m in Sources */,
+				907B92061C9EFFE600685684 /* CityModel.m in Sources */,
 				909ACD8D1C9D527100BDC7E3 /* ListOfCitiesViewController.m in Sources */,
+				907B920B1C9F0A9600685684 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -610,6 +652,7 @@
 				909ACD801C9D4FC400BDC7E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		909ACD811C9D4FC400BDC7E3 /* Build configuration list for PBXNativeTarget "OpenWeatherTests" */ = {
 			isa = XCConfigurationList;
@@ -618,6 +661,7 @@
 				909ACD831C9D4FC400BDC7E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		909ACD841C9D4FC400BDC7E3 /* Build configuration list for PBXNativeTarget "OpenWeatherUITests" */ = {
 			isa = XCConfigurationList;
@@ -626,6 +670,7 @@
 				909ACD861C9D4FC400BDC7E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

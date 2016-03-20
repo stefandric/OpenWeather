@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CityModel.h"
 
 @protocol CityAdded <NSObject>
--(void)cityAdded:(NSString *)cityName;
+-(void)cityAdded:(CityModel *)city;
 @end
 
 @interface AddCityViewController : UIViewController

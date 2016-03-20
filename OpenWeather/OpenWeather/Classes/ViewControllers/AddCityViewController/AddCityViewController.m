@@ -8,6 +8,7 @@
 
 #import "AddCityViewController.h"
 #import "Communication.h"
+#import "MBProgressHUD.h"
 
 @interface AddCityViewController ()
 
@@ -34,12 +35,26 @@
 - (IBAction)saveButtonTapped:(id)sender
 {
     if (self.addCityTextField.hasText) {
+        NSString *fetchedString = [self.addCityTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]; //If city name have more than one word, needs to remove whitespaces
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
-    
-    [Communication getCityInformationByCityName:self.addCityTextField.text successBlock:^(NSDictionary *response) {
+    [Communication getCityInformationByCityName:fetchedString successBlock:^(NSDictionary *response) {
         NSLog(@"%@", response);
+        CityModel *cityModel = [[CityModel alloc] initWithDictionary:response];
+        [self.delegate cityAdded:cityModel];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            // Do something...
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            });
+        });
     } errorBlock:^(NSDictionary *error) {
-        NSLog(@"%@", error);
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            // Do something...
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            });
+        });
     }];
     }
     

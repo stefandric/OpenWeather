@@ -27,7 +27,7 @@
 //        errorHandler(userInfo);
 //    }];
     NSString *apiKey = [[NSUserDefaults standardUserDefaults] objectForKey:@"apiKey"];
-     NSString *url = [NSString stringWithFormat:@"https://openweathermap.org/data/2.5/weather?q=%@&APPID=%@", namer, apiKey];
+     NSString *url = [NSString stringWithFormat:@"https://openweathermap.org/data/2.5/weather?q=%@&APPID=%@&units=metric", namer, apiKey];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:url parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
                 successHandler(responseObject);

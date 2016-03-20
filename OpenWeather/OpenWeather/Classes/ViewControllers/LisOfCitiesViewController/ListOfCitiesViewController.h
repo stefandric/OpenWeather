@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "AddCityViewController.h"
+#import "CityDetailsViewController.h"
+#import "CityModel.h"
 
 @interface ListOfCitiesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CityAdded>
 
