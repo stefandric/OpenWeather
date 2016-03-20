@@ -25,6 +25,7 @@
         self.citiesArray = [NSKeyedUnarchiver unarchiveObjectWithData:savedCities];
     }
     self.navigationItem.title = @"Favorite cities";
+    self.listOfCitiesTableView.backgroundColor = [UIColor clearColor];
     // Do any additional setup after loading the view.
 }
 
@@ -69,8 +70,11 @@
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
     UIButton *plusButton = [UIButton buttonWithType:UIButtonTypeSystem];
     //Setting position to bottom right
-    [plusButton setFrame:CGRectMake(SCREEN_WIDTH-60, 30, 50, 20)];
-    [plusButton setTitle:@"+" forState:UIControlStateNormal];
+    [plusButton setFrame:CGRectMake(SCREEN_WIDTH/2-25, 0, 50, 50)];
+    UIImage *plusImage = [UIImage imageNamed:@"plusImage"];
+    plusImage = [plusImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [plusButton setImage:plusImage  forState:UIControlStateNormal];
+    
     [plusButton addTarget:self action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [footerView addSubview:plusButton];
     return footerView;
