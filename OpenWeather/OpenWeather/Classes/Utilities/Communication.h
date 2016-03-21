@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
+#import "CityModel.h"
 
 @interface Communication : NSObject
 +(void)getCityInformationByCityName:(NSString *)namer
-                       successBlock:(void (^)(NSDictionary *response))successHandler
+                       successBlock:(void (^)(CityModel *city))successHandler
                          errorBlock:(void (^) (NSDictionary *error))errorHandler;
 
 +(void)getAllCitiesInfoById:(NSString *)ids
-               successBlock:(void (^)(NSDictionary *response))successHandler
+               successBlock:(void (^)(NSArray *allCities))successHandler
                  errorBlock:(void (^) (NSDictionary *error))errorHandler;
 @end

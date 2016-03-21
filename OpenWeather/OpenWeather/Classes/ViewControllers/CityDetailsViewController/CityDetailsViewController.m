@@ -14,45 +14,47 @@
 
 @implementation CityDetailsViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self initializeViewData];
     [self setBackgrounImageDependingOnDescription:self.cityModel];
     // Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 -(void)initializeViewData
 {
-    self.temperatureLabel.text = [NSString stringWithFormat:@"%d°", [self.cityModel.currentTemperature intValue]];
+    self.temperatureLabel.text = [NSString stringWithFormat:@"%ld°", (long)self.cityModel.currentTemperature.integerValue];
     self.cityNameLabel.text = self.cityModel.name;
-    self.humidityLabel.text = [NSString stringWithFormat:@"Humidity: %@", self.cityModel.humidity];
+    self.humidityLabel.text = [NSString stringWithFormat:@"Humidity: %ld", (long)self.cityModel.humidity.integerValue];
     self.descriptionLabel.text = self.cityModel.descriptionWeather;
 
 }
 
 -(void)setBackgrounImageDependingOnDescription:(CityModel *)cityModel
 {
-    int weatherId = [cityModel.weatherDescriptionId intValue];
+    NSInteger weatherId = cityModel.weatherDescriptionId.integerValue;
     
     if (weatherId >=200 && weatherId<=232) {
-        [self.backgroundImage setImage:[UIImage imageNamed:@"thunder"]];
+        self.backgroundImage.image = [UIImage imageNamed:@"thunder"];
     }
     
     else if (weatherId >=300 && weatherId<=531) {
-        [self.backgroundImage setImage:[UIImage imageNamed:@"rain"]];
+        self.backgroundImage.image = [UIImage imageNamed:@"rain"];
     }
     
     else if (weatherId >=600 && weatherId<=622) {
-        [self.backgroundImage setImage:[UIImage imageNamed:@"snow"]];
+        self.backgroundImage.image = [UIImage imageNamed:@"snow"];
     }
     
     else {
-        [self.backgroundImage setImage:[UIImage imageNamed:@"clearSky"]];
+        self.backgroundImage.image = [UIImage imageNamed:@"clearSky"];
     }
 }
 /*

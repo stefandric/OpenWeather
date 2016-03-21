@@ -39,33 +39,14 @@
     // Do any additional setup after loading the view.
 }
 
--(void)getLatestWeatherChanges
-{
-    [Communication getAllCitiesInfoById:[self getAllCitiesIds] successBlock:^(NSDictionary *response) {
-        self.citiesArray = [[NSMutableArray alloc]init];//Emptying array
-        NSArray *listOfCities = [response objectForKey:@"list"];
-        for (NSDictionary *dict in listOfCities) {
-            CityModel *cityModel = [[CityModel alloc] initWithDictionary:dict];
-            [self.citiesArray addObject:cityModel];
-        }
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.citiesArray];
-        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"savedCities"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-
-        [self.listOfCitiesTableView reloadData];
-        [self.refreshControl endRefreshing];
-    } errorBlock:^(NSDictionary *error) {
-        
-    }];
-    
-    
-}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - UITableView Delegate methods
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -82,7 +63,7 @@
     CityTableViewCell *cell = (CityTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cityCell"];
     CityModel *city = self.citiesArray[indexPath.row];
     cell.cityNameLabel.text = city.name;
-    cell.cityTemperature.text = [NSString stringWithFormat:@"%d°", [city.currentTemperature intValue]];
+    cell.cityTemperature.text = [NSString stringWithFormat:@"%ld°", (long)[city.currentTemperature integerValue]];
     return cell;
 }
 
@@ -90,15 +71,15 @@
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    CityModel *tempModel = self.citiesArray[indexPath.row];//Just to get name of selected model
+    CityModel *tempModel = self.citiesArray[indexPath.row]; //Just to get name of selected model
     
     NSString *fetchedString = [tempModel.name stringByReplacingOccurrencesOfString:@" " withString:@""]; //Possible spaces
     
-    
-    [Communication getCityInformationByCityName:fetchedString successBlock:^(NSDictionary *response) {
-        NSLog(@"%@", response);
-        self.selectedCityModel = [[CityModel alloc] initWithDictionary:response];
-        [self.citiesArray replaceObjectAtIndex:indexPath.row withObject:self.selectedCityModel]; //Replace existing object with fresh data.
+    [Communication getCityInformationByCityName:fetchedString successBlock:^(CityModel *city) {
+        
+        self.selectedCityModel = city; //Prepare model for segue
+        [self.citiesArray replaceObjectAtIndex:indexPath.row withObject:city]; //Replace existing object with fresh data.
+        
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.citiesArray]; //Save to user defaults freshly data
         [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"savedCities"];
         [[NSUserDefaults standardUserDefaults] synchronize]; //Just to be sure that it is immidiatelly changed
@@ -109,10 +90,10 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
             });
-           
+            
         });
-        
         [self.listOfCitiesTableView reloadData];
+        
     } errorBlock:^(NSDictionary *error) {
         
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -123,7 +104,6 @@
         });
         
     }];
-    
     
 }
 
@@ -136,26 +116,28 @@
 {
     //Defining CGRect of footer view
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
+    
     UIButton *plusButton = [UIButton buttonWithType:UIButtonTypeSystem];
     //Setting position to bottom right
-    [plusButton setFrame:CGRectMake(SCREEN_WIDTH/2-25, 0, 50, 50)];
+    plusButton.frame = CGRectMake(SCREEN_WIDTH/2-25, 0, 50, 50);
     UIImage *plusImage = [UIImage imageNamed:@"plusImage"];
     plusImage = [plusImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    [plusButton setImage:plusImage  forState:UIControlStateNormal];
-    
+    [plusButton setImage:plusImage forState:UIControlStateNormal];
     [plusButton addTarget:self action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [footerView addSubview:plusButton];
     return footerView;
 }
 
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
     // Return YES if you want the specified item to be editable.
     return YES;
 }
 
 // Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self.citiesArray removeObjectAtIndex:indexPath.row];
         [self.listOfCitiesTableView reloadData];
@@ -164,7 +146,9 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
+
 #pragma mark - PlusButton
+
 -(void)plusButtonTapped:(UIButton *)sender
 {
     [self performSegueWithIdentifier:@"addCitySegue" sender:self];
@@ -172,7 +156,8 @@
 
 #pragma mark - Navigation
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     if ([segue.identifier isEqualToString:@"addCitySegue"]) {
         AddCityViewController *vc = [segue destinationViewController];
         vc.delegate = self;
@@ -183,9 +168,12 @@
     }
 }
 
+#pragma mark - Utilities
+
 -(void)cityAdded:(CityModel *)city
 {
     NSMutableArray *citesNames = [NSMutableArray new];
+    
     if (self.citiesArray.count) { //If there is some city
         for (CityModel *cityTemp in self.citiesArray) {
             [citesNames addObject:cityTemp.name];
@@ -194,10 +182,13 @@
             [self.citiesArray addObject:city];
         }
     }
+    
     else { //Array need to allocated and initialized with object
         self.citiesArray = [[NSMutableArray alloc] initWithObjects:city, nil];
     }
+    
     [self.listOfCitiesTableView reloadData]; //Refresh data with newest
+    
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.citiesArray];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"savedCities"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -206,20 +197,39 @@
 -(NSString *)getAllCitiesIds
 {
     NSString *idsString;
+    
     for (int i=0; i<self.citiesArray.count; i++) {
         CityModel *cityModel = self.citiesArray[i];
         if (i == 0) {
             idsString = cityModel.cityId;
         }
-        else if (i==self.citiesArray.count-1){
+        else if (i==self.citiesArray.count-1){//last member without extra ,
             idsString = [NSString stringWithFormat:@"%@,%@", idsString, cityModel.cityId];
         }
         else {
             idsString = [NSString stringWithFormat:@"%@,%@",idsString, cityModel.cityId];
         }
     }
-
     return idsString;
+}
+
+-(void)getLatestWeatherChanges
+{
+    [Communication getAllCitiesInfoById:[self getAllCitiesIds] successBlock:^(NSArray *allCities) {
+        
+        self.citiesArray = [NSMutableArray arrayWithArray:allCities]; //Emptying array
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.citiesArray];
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"savedCities"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [self.listOfCitiesTableView reloadData];
+        [self.refreshControl endRefreshing];
+        
+    } errorBlock:^(NSDictionary *error) {
+        
+    }];
+    
+    
 }
 
 @end
