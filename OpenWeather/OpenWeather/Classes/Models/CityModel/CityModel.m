@@ -7,26 +7,75 @@
 //
 
 #import "CityModel.h"
+#import "LogicHelper.h"
 
 @implementation CityModel
 -(instancetype)initWithDictionary:(NSDictionary *)dict
 {
     self = [super init];
     if (self) {
+        if ([LogicHelper notNullOrNil:[dict objectForKey:@"name"]] == YES) {
+         self.name = [dict objectForKey:@"name"];
+        }
+        else {
+            self.name = @"";
+        }
         
-        self.name = [dict objectForKey:@"name"];
-        self.cityId = [dict objectForKey:@"id"];
+        if ([LogicHelper notNullOrNil:[dict objectForKey:@"id"]] == YES) {
+            self.cityId = [dict objectForKey:@"id"];
+        }
+        else {
+            self.cityId = @"";
+        }
+        
+        
         NSDictionary *main = [dict objectForKey:@"main"];
-        self.humidity = [main objectForKey:@"humidity"];
+        if ([LogicHelper notNullOrNil:[main objectForKey:@"humidity"]] == YES) {
+            self.humidity = [main objectForKey:@"humidity"];
+        }
+        else {
+            self.humidity = @"";
+        }
+        
         NSArray *weather = [dict objectForKey:@"weather"];
         for (NSDictionary *temp in weather) {
-            self.descriptionWeather = [temp objectForKey:@"description"];
-            self.weatherDescriptionId = [temp objectForKey:@"id"];
+            if ([LogicHelper notNullOrNil:[temp objectForKey:@"description"]] == YES) {
+                self.descriptionWeather = [temp objectForKey:@"description"];
+            }
+            else {
+                self.descriptionWeather = @"";
+            }
+            
+            if ([LogicHelper notNullOrNil:[temp objectForKey:@"description"]] == YES) {
+                self.weatherDescriptionId = [temp objectForKey:@"id"];
+            }
+            else {
+                self.weatherDescriptionId = @"";
+            }
+            
         }
-        self.currentTemperature = [main objectForKey:@"temp"];
-        self.temperatureMax = [main objectForKey:@"temp_max"];
-        self.temperatureMin = [main objectForKey:@"temp_min"];
         
+        if ([LogicHelper notNullOrNil:[main objectForKey:@"temp"]] == YES) {
+            self.currentTemperature = [main objectForKey:@"temp"];
+        }
+        else {
+            self.currentTemperature = @"";
+        }
+        
+        if ([LogicHelper notNullOrNil:[main objectForKey:@"temp_max"]] == YES) {
+            self.temperatureMax = [main objectForKey:@"temp_max"];
+        }
+        else {
+            self.temperatureMax = @"";
+        }
+        
+        if ([LogicHelper notNullOrNil:[main objectForKey:@"temp_min"]] == YES) {
+            self.temperatureMin = [main objectForKey:@"temp_min"];
+        }
+        else {
+            self.temperatureMin = @"";
+        }
+
     }
     
     return self;

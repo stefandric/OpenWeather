@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CityModel.h"
+#import "LogicHelper.h"
 
 @protocol CityAdded <NSObject>
 -(void)cityAdded:(CityModel *)city;

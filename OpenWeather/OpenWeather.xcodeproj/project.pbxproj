@@ -10,6 +10,7 @@
 		907B92061C9EFFE600685684 /* CityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 907B92051C9EFFE600685684 /* CityModel.m */; };
 		907B920B1C9F0A9600685684 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 907B920A1C9F0A9600685684 /* MBProgressHUD.m */; };
 		907B920F1C9F189600685684 /* CityDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907B920E1C9F189600685684 /* CityDetailsViewController.m */; };
+		907FC7B31CA08DF500BE3A0E /* LogicHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 907FC7B21CA08DF500BE3A0E /* LogicHelper.m */; };
 		909ACD561C9D4FC400BDC7E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 909ACD551C9D4FC400BDC7E3 /* main.m */; };
 		909ACD591C9D4FC400BDC7E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 909ACD581C9D4FC400BDC7E3 /* AppDelegate.m */; };
 		909ACD5F1C9D4FC400BDC7E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909ACD5D1C9D4FC400BDC7E3 /* Main.storyboard */; };
@@ -53,6 +54,8 @@
 		907B920A1C9F0A9600685684 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		907B920D1C9F189600685684 /* CityDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityDetailsViewController.h; sourceTree = "<group>"; };
 		907B920E1C9F189600685684 /* CityDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityDetailsViewController.m; sourceTree = "<group>"; };
+		907FC7B11CA08DF500BE3A0E /* LogicHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogicHelper.h; sourceTree = "<group>"; };
+		907FC7B21CA08DF500BE3A0E /* LogicHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogicHelper.m; sourceTree = "<group>"; };
 		909ACD511C9D4FC400BDC7E3 /* OpenWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909ACD551C9D4FC400BDC7E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		909ACD571C9D4FC400BDC7E3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -257,6 +260,8 @@
 			children = (
 				909ACD961C9D5F9600BDC7E3 /* Communication.h */,
 				909ACD971C9D5F9600BDC7E3 /* Communication.m */,
+				907FC7B11CA08DF500BE3A0E /* LogicHelper.h */,
+				907FC7B21CA08DF500BE3A0E /* LogicHelper.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -418,6 +423,7 @@
 				909ACD941C9D580800BDC7E3 /* AddCityViewController.m in Sources */,
 				909ACD981C9D5F9600BDC7E3 /* Communication.m in Sources */,
 				909ACDAB1C9D5FEA00BDC7E3 /* AFURLResponseSerialization.m in Sources */,
+				907FC7B31CA08DF500BE3A0E /* LogicHelper.m in Sources */,
 				909ACD561C9D4FC400BDC7E3 /* main.m in Sources */,
 				909ACD901C9D53C800BDC7E3 /* CityTableViewCell.m in Sources */,
 				909ACDA71C9D5FEA00BDC7E3 /* AFHTTPSessionManager.m in Sources */,

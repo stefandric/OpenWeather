@@ -19,6 +19,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.addCityTextField becomeFirstResponder];
     // Do any additional setup after loading the view.
 }
 
@@ -30,17 +31,19 @@
 
 - (IBAction)cancelButtonPressed:(id)sender
 {
+    [self.view endEditing:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)saveButtonTapped:(id)sender
 {
+    [self.addCityTextField resignFirstResponder];
+    
     if (self.addCityTextField.hasText) {
         NSString *fetchedString = [self.addCityTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""]; //If city name have more than one word, needs to remove whitespaces
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
         [Communication getCityInformationByCityName:fetchedString successBlock:^(CityModel *city) {
-            
             [self.delegate cityAdded:city];
             [self dismissViewControllerAnimated:YES completion:nil];
             
@@ -53,6 +56,7 @@
                 
             });
         } errorBlock:^(NSDictionary *error) {
+            [self presentViewController:[LogicHelper showAlertController] animated:YES completion:nil];
             dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
                 // Do something...
                 dispatch_async(dispatch_get_main_queue(), ^{

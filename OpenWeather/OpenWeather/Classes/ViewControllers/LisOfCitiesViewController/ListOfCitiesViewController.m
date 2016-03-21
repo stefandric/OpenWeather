@@ -95,7 +95,7 @@
         [self.listOfCitiesTableView reloadData];
         
     } errorBlock:^(NSDictionary *error) {
-        
+        [self presentViewController:[LogicHelper showAlertController] animated:YES completion:nil];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
             // Do something...
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -226,7 +226,7 @@
         [self.refreshControl endRefreshing];
         
     } errorBlock:^(NSDictionary *error) {
-        
+       [self presentViewController:[LogicHelper showAlertController] animated:YES completion:nil]; 
     }];
     
     
