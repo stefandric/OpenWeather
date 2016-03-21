@@ -22,13 +22,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //If there is saved array in preferences, load it.
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"savedCities"]) {
         NSData *savedCities = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedCities"];
         self.citiesArray = [NSKeyedUnarchiver unarchiveObjectWithData:savedCities];
     }
+    
     self.navigationItem.title = @"Favorite cities";
     self.listOfCitiesTableView.backgroundColor = [UIColor clearColor];
     
+    //Setting UITableView's refreshing control.
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = [UIColor grayColor];
     self.refreshControl.tintColor = [UIColor whiteColor];
@@ -73,16 +76,16 @@
     
     CityModel *tempModel = self.citiesArray[indexPath.row]; //Just to get name of selected model
     
-    NSString *fetchedString = [tempModel.name stringByReplacingOccurrencesOfString:@" " withString:@""]; //Possible spaces
+    NSString *fetchedString = [tempModel.name stringByReplacingOccurrencesOfString:@" " withString:@""]; //Possible spaces in city name
     
     [Communication getCityInformationByCityName:fetchedString successBlock:^(CityModel *city) {
         
-        self.selectedCityModel = city; //Prepare model for segue
-        [self.citiesArray replaceObjectAtIndex:indexPath.row withObject:city]; //Replace existing object with fresh data.
+        self.selectedCityModel = city; //Prepare model for segue, so it is visible globally in this class
+        [self.citiesArray replaceObjectAtIndex:indexPath.row withObject:city]; //Replace existing object with newest data.
         
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.citiesArray]; //Save to user defaults freshly data
         [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"savedCities"];
-        [[NSUserDefaults standardUserDefaults] synchronize]; //Just to be sure that it is immidiatelly changed
+        [[NSUserDefaults standardUserDefaults] synchronize]; //Just to be sure that it is immediately changed
         
         [self performSegueWithIdentifier:@"cityDetailsSegue" sender:self];
         
@@ -95,6 +98,7 @@
         [self.listOfCitiesTableView reloadData];
         
     } errorBlock:^(NSDictionary *error) {
+        //Presenting generic error message.
         [self presentViewController:[LogicHelper showAlertController] animated:YES completion:nil];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
             // Do something...
@@ -138,6 +142,7 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //Delete desired array member.
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self.citiesArray removeObjectAtIndex:indexPath.row];
         [self.listOfCitiesTableView reloadData];
@@ -194,6 +199,10 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+/*!
+ * @discussion Getting all ID's in purpose of webservice request.
+ * @return String divided by comma.
+ */
 -(NSString *)getAllCitiesIds
 {
     NSString *idsString;
@@ -201,18 +210,21 @@
     for (int i=0; i<self.citiesArray.count; i++) {
         CityModel *cityModel = self.citiesArray[i];
         if (i == 0) {
-            idsString = cityModel.cityId;
+            idsString = cityModel.cityId; //First member is clean id.
         }
-        else if (i==self.citiesArray.count-1){//last member without extra ,
+        else if (i==self.citiesArray.count-1){ //Last member without comma at the end.
             idsString = [NSString stringWithFormat:@"%@,%@", idsString, cityModel.cityId];
         }
         else {
-            idsString = [NSString stringWithFormat:@"%@,%@",idsString, cityModel.cityId];
+            idsString = [NSString stringWithFormat:@"%@,%@",idsString, cityModel.cityId]; //Set the comma between all other members.
         }
     }
     return idsString;
 }
 
+/*!
+ * @discussion Triggered on pull to refresh, getting last informations about cities.
+ */
 -(void)getLatestWeatherChanges
 {
     [Communication getAllCitiesInfoById:[self getAllCitiesIds] successBlock:^(NSArray *allCities) {

@@ -10,6 +10,7 @@
 #import "LogicHelper.h"
 
 @implementation CityModel
+
 -(instancetype)initWithDictionary:(NSDictionary *)dict
 {
     self = [super init];
@@ -82,7 +83,7 @@
 }
 
 /*
- * This method need to be implemented because of further saving to NSData, and then to NSUserDefaults
+ * This method needs to be implemented because of further saving to NSData, and then to NSUserDefaults
  */
 -(void)encodeWithCoder:(NSCoder *)aCoder
 {
@@ -97,7 +98,7 @@
 }
 
 /*
- * This method need to be implemented because of further saving to NSData, and then to NSUserDefaults
+ * This method needs to be implemented because of further saving to NSData, and then to NSUserDefaults
  */
 -(id)initWithCoder:(NSCoder *)aDecoder
 {

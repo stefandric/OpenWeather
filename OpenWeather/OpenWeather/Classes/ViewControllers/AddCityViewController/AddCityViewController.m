@@ -44,9 +44,8 @@
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
         [Communication getCityInformationByCityName:fetchedString successBlock:^(CityModel *city) {
-            [self.delegate cityAdded:city];
+            [self.delegate cityAdded:city]; //Notify to add to array newest city and to refresh data.
             [self dismissViewControllerAnimated:YES completion:nil];
-            
             
             dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
                 // Do something...

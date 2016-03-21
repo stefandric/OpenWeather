@@ -9,6 +9,7 @@
 #import "Communication.h"
 
 @implementation Communication
+
 +(void)getCityInformationByCityName:(NSString *)namer
                        successBlock:(void (^)(CityModel *city))successHandler
                          errorBlock:(void (^) (NSDictionary *error))errorHandler
@@ -30,7 +31,6 @@
         
     }];
 }
-
 
 +(void)getAllCitiesInfoById:(NSString *)ids
                successBlock:(void (^)(NSArray *allCities))successHandler

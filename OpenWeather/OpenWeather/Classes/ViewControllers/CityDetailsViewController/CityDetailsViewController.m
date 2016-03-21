@@ -37,6 +37,9 @@
 
 }
 
+/*!
+ * @discussion Method that is setting image depending on weather condition.
+ */
 -(void)setBackgrounImageDependingOnDescription:(CityModel *)cityModel
 {
     NSInteger weatherId = cityModel.weatherDescriptionId.integerValue;
